@@ -1,0 +1,5 @@
+name: Application API
+description: A Field named as  API key needs to add in Site Information.
+package: Custom
+type: module
+core: 8.x

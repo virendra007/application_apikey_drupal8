@@ -1,0 +1,12 @@
+application_api.content:
+  path: '/page_json/{key}/{node}'
+  defaults:
+    _controller: '\Drupal\application_api\Controller\ApplicationApiController::getAccess'
+  options:
+      parameters:
+        key:
+          type: String
+        node:
+          type: entity:node
+  requirements:
+    _permission: 'access content'

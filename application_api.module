@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * Implements hook_form_alter().
+ */
+
+function application_api_form_alter(&$form, $form_state, $form_id)
+{ 
+    if($form_id == 'system_site_information_settings'){ 
+		$key = \Drupal::config('siteapikey.configuration')->get('siteapikey');
+		$form['site_information']['keyis'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Site API Key'),
+			'#default_value' => $key,
+			'#description' => t('An API Key to get nodes in JSON.'),
+		);
+		$form['actions']['submit']['#value'] = t('Update Configuration');
+		
+		// Submit Handler
+		$form['#submit'][] = '_saveApiKey';
+	}
+}
+
+function _saveApiKey($form, &$form_state)
+{
+    
+    $config =  \Drupal::configFactory()->getEditable('siteapikey.configuration');
+    $keyFetch = $form_state->getValue(['keyis']);
+    $config->set('siteapikey', $keyFetch);
+    $config->save();
+    drupal_set_message("Site API Key has been saved with that value: " . $keyFetch);
+}
+
